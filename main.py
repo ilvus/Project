@@ -22,12 +22,11 @@ class Matrix:
             row = [2] 
             for j in range(m):
                 row.append(random.choice([0,1]))
-        
             row.append(2)
-      
             self.a.append(row)
       
         self.a.append([2 for i in range(m+2)])
+        
         self.create_monster()
         self.draw()
     
@@ -67,14 +66,14 @@ class Matrix:
             
     def move_monster(self):
         for i in range(self.number_monster):
-            
-            self.a[self.monsters[i][0]][self.monsters[i][1]] = 0
             try:
+                self.a[self.monsters[i][0]][self.monsters[i][1]] = 0
+           
                 self.monsters[i] = (self.monsters[i][0]+choice([0,-1,1]),self.monsters[i][1]+choice([0,-1,1]))
+            
+                self.a[self.monsters[i][0]][self.monsters[i][1]] = 3
             except:
                 pass
-            self.a[self.monsters[i][0]][self.monsters[i][1]] = 3
-    
         
         
         
@@ -149,18 +148,39 @@ class Matrix:
                     self.a[i][j] = 0
                 elif nn == 3:
                     self.a[i][j] = 1
-                    
-                    
-    def get_matrix(self):
-        for i in self.a:
-            print(i)
+   
+    #private file         
+            
+    @property
+    def n(self):
+        return self.__n
+    
+    @n.setter
+    def n(self, n):
+        if n not in range(5, 101):
+            raise Exception('The number of rows should be in range from 5 to 100')
+        self.__n = n
+        
+        
+    @property
+    def m(self):
+        return self.__m
+    
+    
+    @m.setter
+    def m(self, m):
+        if m not in range(5, 101):
+            raise Exception('The number of columns should be in range from 5 to 100')
+        self.__m = m
+        
 
+    
 
 root = tk.Tk()
 root.geometry('900x900')
 canvas = tk.Canvas(root, width=900, height=900)
 canvas.pack()
 
-mat = Matrix(canvas, 50, 50, 5, 900, 900)
+mat = Matrix(canvas, 100, 100, 20, 900, 900)
 
 root.mainloop()
