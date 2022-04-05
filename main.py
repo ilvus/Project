@@ -15,7 +15,7 @@ class Matrix:
         self.h = height/n
         self.w = width/m
         self.a = []
-        self.monsters = []
+        self.mons = []
 
         self.a.append([2 for i in range(m+2)])
 
@@ -50,24 +50,25 @@ class Matrix:
             y += self.h
         self.check()
         self.move_monster()
-        self.canvas.after(500, self.draw)
+        self.canvas.after(300, self.draw)
 
     def create_monster(self):
 
         for i in range(self.number_monster):
             b = random.randint(0, self.n)
             c = random.randint(0, self.m)
-            self.monsters.append((b, c))
+            self.mons.append((b, c))
             self.a[b][c] = 3
 
     def move_monster(self):
         for i in range(self.number_monster):
+            ch = choice([0, -1, 1])
             try:
-                self.a[self.monsters[i][0]][self.monsters[i][1]] = 0
+                self.a[self.mons[i][0]][self.mons[i][1]] = 0
 
-                self.monsters[i] = (self.monsters[i][0] + choice([0, -1, 1]), self.monsters[i][1] + choice([0, -1, 1]))
+                self.mons[i] = (self.mons[i][0] + ch, self.mons[i][1] + ch)
 
-                self.a[self.monsters[i][0]][self.monsters[i][1]] = 3
+                self.a[self.mons[i][0]][self.mons[i][1]] = 3
             except:
                 pass
 
@@ -149,7 +150,7 @@ class Matrix:
     @n.setter
     def n(self, n):
         if n not in range(5, 101):
-            raise Exception('The number of rows should be in range from 5 to 100')
+            raise Exception('Number of rows must be in range from 5 to 100')
         self.__n = n
 
     @property
@@ -159,7 +160,7 @@ class Matrix:
     @m.setter
     def m(self, m):
         if m not in range(5, 101):
-            raise Exception('The number of columns should be in range from 5 to 100')
+            raise Exception('Number of columns must be in range from 5 to 100')
         self.__m = m
 
 root = tk.Tk()
@@ -167,6 +168,6 @@ root.geometry('900x900')
 canvas = tk.Canvas(root, width=900, height=900)
 canvas.pack()
 
-mat = Matrix(canvas, 100, 100, 20, 900, 900)
+mat = Matrix(canvas, 50, 50, 20, 900, 900)
 
 root.mainloop()
